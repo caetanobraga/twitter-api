@@ -1,9 +1,10 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from 'typeorm';
+import { TweetEntity } from './tweet.entity';
 
-@Entity({ name: 'USER_REPOSITORY' })
+@Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ length: 100 })
   nome: string;
@@ -16,4 +17,14 @@ export class UserEntity {
 
   @Column()
   ativo: boolean;
+
+  @OneToMany(() => TweetEntity, (tweets) => tweets.user)
+  tweets: TweetEntity[];
+
+  addTweet(tweet: TweetEntity) {
+    if (this.tweets === null) {
+      this.tweets = new Array<TweetEntity>();
+    }
+    this.tweets.push(tweet);
+  }
 }
