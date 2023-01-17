@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
 import { databaseProviders } from 'src/core/database/database.providers';
-import { TwitterController } from './controller/twitter.controler';
-import { TwitterService } from './service/twitter.service';
+import { UserController } from '../twitter/controller/user.controler';
+import { TweetController } from './controller/tweet-controller';
+import { TweetService } from './service/tweet.service';
+import { UserService } from './service/user.service';
 import { twitterProviders } from './twitter.provider';
 
 @Module({
-  controllers: [TwitterController],
-  providers: [...databaseProviders, ...twitterProviders, TwitterService],
+  controllers: [UserController, TweetController],
+  providers: [
+    ...databaseProviders,
+    ...twitterProviders,
+    UserService,
+    TweetService,
+  ],
 })
 export class TwitterModule {}

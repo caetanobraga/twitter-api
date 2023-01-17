@@ -4,7 +4,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
-export class TwitterService {
+export class UserService {
   constructor(
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<UserEntity>,
@@ -16,8 +16,15 @@ export class TwitterService {
         const userToSave = this.userRepository.create(createUserDto);
         resolve(await this.userRepository.save(userToSave));
       } catch (error) {
-        reject(error);
+        reject({
+          code: error.code,
+          detail: error.detail,
+        });
       }
     });
+  }
+
+  findall() {
+    return this.userRepository.find();
   }
 }
